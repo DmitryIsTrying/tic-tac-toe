@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:reset": "dotenv -e .env.development -- npx prisma migrate reset"
+    "db:reset": "dotenv -e .env.development -- npx prisma migrate reset",
+    "db:migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -22,7 +23,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -32,6 +34,9 @@
     "dotenv-cli": "^8.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "postcss": "^8",
     "prettier": "^3.5.0",
     "prisma": "^6.3.1",
