@@ -1,5 +1,5 @@
-import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
 
 const compat = new FlatCompat({
   // import.meta.dirname is available after Node.js v20.11.0
@@ -27,6 +27,9 @@ const eslintConfig = [
       // Правила из eslint-plugin-react-hooks
       "react-hooks/rules-of-hooks": "error", // Проверяет правила использования хуков
       "react-hooks/exhaustive-deps": "warn", // Проверяет зависимости useEffect и других хуков
+
+      // customs
+      "@typescript-eslint/no-unused-vars": "off",
     },
   }),
 ];
