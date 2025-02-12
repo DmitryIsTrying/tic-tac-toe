@@ -4,6 +4,7 @@ import { createGameAction } from "@/features/games-list/actions/create-game";
 import { mapLeft, right } from "@/shared/lib/either";
 import { useActionState } from "@/shared/lib/react";
 import { Button } from "@/shared/ui/button";
+import { startTransition } from "react";
 
 export function CreateButton() {
   const [data, dispatch, isPending] = useActionState(
@@ -14,7 +15,7 @@ export function CreateButton() {
   return (
     <Button
       disabled={isPending}
-      onClick={dispatch}
+      onClick={() => startTransition(dispatch)}
       result={mapLeft(
         data,
         (e) =>
