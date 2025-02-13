@@ -3,15 +3,11 @@ import { Label } from "@radix-ui/react-label";
 import { useId } from "react";
 
 export function AuthFields({
-  login,
-  onChangeLogin,
-  onChangePassword,
-  password,
+  formData,
+  errors,
 }: {
-  login: string;
-  password: string;
-  onChangeLogin: (login: string) => void;
-  onChangePassword: (password: string) => void;
+  formData?: FormData;
+  errors?: { login?: string; password?: string };
 }) {
   const loginId = useId();
   const passwordId = useId();
@@ -25,10 +21,13 @@ export function AuthFields({
           id={loginId}
           type="text"
           placeholder="Enter your login"
-          value={login}
-          onChange={(e) => onChangeLogin(e.target.value)}
           required
+          name="login"
+          defaultValue={formData?.get("login")?.toString()}
         />
+        {errors?.login && (
+          <p className="text-sm text-red-500">{errors.login}</p>
+        )}
       </div>
       <div className="space-y-2">
         <Label htmlFor={passwordId}>Password</Label>
@@ -37,10 +36,13 @@ export function AuthFields({
           id={passwordId}
           type="password"
           placeholder="Enter your password"
-          value={password}
-          onChange={(e) => onChangePassword(e.target.value)}
           required
+          name="password"
+          defaultValue={formData?.get("password")?.toString()}
         />
+        {errors?.password && (
+          <p className="text-sm text-red-500">{errors.password}</p>
+        )}
       </div>
     </>
   );

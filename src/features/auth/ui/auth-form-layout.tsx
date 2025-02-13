@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter } from "@/shared/ui/card";
-import { FormEventHandler, ReactNode } from "react";
+import { ReactNode } from "react";
 
 type AuthFormLayoutProps = {
   title: string;
@@ -7,7 +7,7 @@ type AuthFormLayoutProps = {
   actions: ReactNode;
   link: ReactNode;
   error: ReactNode;
-  onSubmit: FormEventHandler<HTMLFormElement>;
+  action: (formData: FormData) => void;
 };
 
 export function AuthFormLayout({
@@ -15,14 +15,14 @@ export function AuthFormLayout({
   actions,
   fields,
   link,
-  onSubmit,
+  action,
   error,
 }: AuthFormLayoutProps) {
   return (
     <>
       <h1 className="mb-6 text-center text-3xl font-bold">{title}</h1>
       <Card>
-        <form onSubmit={onSubmit}>
+        <form action={action}>
           <CardContent className="space-y-4">
             {fields}
             {error}
