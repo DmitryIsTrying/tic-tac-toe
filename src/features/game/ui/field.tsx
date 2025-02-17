@@ -7,14 +7,14 @@ export function GameField({
   onCellClick,
 }: {
   game: GameDomain.GameEntity;
-  onCellClick: (index: number) => void;
+  onCellClick?: (index: number) => void;
 }) {
   return (
     <div className="grid grid-cols-3">
       {game.field.map((symbol, index) => {
         return (
           <button
-            onClick={() => onCellClick(index)}
+            onClick={() => onCellClick?.(index)}
             key={index}
             className="border border-primary w-10 h-10 flex justify-center items-center"
           >

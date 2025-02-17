@@ -6,6 +6,7 @@ import { AuthFormLink } from "@/features/auth/ui/auth-form-link";
 import { ErrorField } from "@/features/auth/ui/error-field";
 import { AuthFields } from "@/features/auth/ui/fields";
 import { SubmitButton } from "@/features/auth/ui/submit-button";
+import { routes } from "@/kernel/routes";
 import { useActionState } from "@/shared/lib/react";
 
 export function SignUpForm() {
@@ -25,7 +26,7 @@ export function SignUpForm() {
         <AuthFormLink
           linkText="Sign in"
           text="Already have an account?"
-          url="/sign-in"
+          url={routes.signIn()}
         />
       }
     />

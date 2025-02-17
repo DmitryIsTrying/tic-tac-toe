@@ -1,4 +1,5 @@
 import { sessionService } from "@/entities/user/server";
+import { routes } from "@/kernel/routes";
 import { Button } from "@/shared/ui/button";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -13,7 +14,7 @@ export default async function PrivateLayout({
   const handleLogout = async () => {
     "use server";
     sessionService.deleteSession();
-    redirect("/sign-in");
+    redirect(routes.signIn());
   };
 
   return (
