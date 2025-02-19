@@ -1,7 +1,4 @@
-import { GameId } from "@/kernel/ids";
 import { prisma } from "@/shared/lib/db";
-import { Game, GamePlayer, Prisma, User } from "@prisma/client";
-import { z } from "zod";
 import {
   GameEntity,
   GameIdleEntity,
@@ -10,6 +7,9 @@ import {
   GameOverEntity,
   PlayerEntity,
 } from "../domain";
+import { Game, GamePlayer, Prisma, User } from "@prisma/client";
+import { z } from "zod";
+import { GameId } from "@/kernel/ids";
 
 const gameInclude = {
   winner: { include: { user: true } },

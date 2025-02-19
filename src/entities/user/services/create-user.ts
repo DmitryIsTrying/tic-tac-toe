@@ -1,8 +1,8 @@
-import { DEFAULT_RATING } from "@/entities/user/domain";
-import { userRepository } from "@/entities/user/repositories/user";
-import { passwordService } from "@/entities/user/services/password";
 import { left, right } from "@/shared/lib/either";
+import { userRepository } from "../repositories/user";
 import cuid from "cuid";
+import { DEFAULT_RATING } from "../domain";
+import { passwordService } from "./password";
 
 export const createUser = async ({
   login,
@@ -17,14 +17,14 @@ export const createUser = async ({
     return left("user-login-exists" as const);
   }
 
-  const { hash, salt } = passwordService.hashPassword(password);
+  const { hash, salt } = await passwordService.hashPassword(password);
 
   const user = await userRepository.saveUser({
     id: cuid(),
-    login: login.toLowerCase(),
-    salt,
+    login,
     rating: DEFAULT_RATING,
     passwordHash: hash,
+    salt,
   });
 
   return right(user);

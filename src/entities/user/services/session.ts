@@ -1,11 +1,7 @@
-import {
-  SessionEntity,
-  UserEntity,
-  userToSession,
-} from "@/entities/user/domain";
-import { routes } from "@/kernel/routes";
-import { left, right } from "@/shared/lib/either";
+import "server-only";
 import { SignJWT, jwtVerify } from "jose";
+import { SessionEntity, UserEntity, userToSession } from "../domain";
+import { left, right } from "@/shared/lib/either";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -31,33 +27,33 @@ async function decrypt(session: string | undefined = "") {
   }
 }
 
-const addSession = async (user: UserEntity) => {
+async function addSession(user: UserEntity) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const sessionData = userToSession(user, expiresAt.toISOString());
-
   const session = await encrypt(sessionData);
-  const cookieStore = await cookies();
+  const cookiesStore = await cookies();
 
-  cookieStore.set("session", session, {
+  cookiesStore.set("session", session, {
     httpOnly: true,
     // secure: true,
     expires: expiresAt,
     sameSite: "lax",
     path: "/",
   });
-};
+}
 
 async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
 }
 
-const verifySession = async () => {
-  const cookie = (await cookies()).get("session")?.value;
+const getSessionCookies = () => cookies().then((c) => c.get("session")?.value);
+const verifySession = async (getCookies = getSessionCookies) => {
+  const cookie = await getCookies();
   const session = await decrypt(cookie);
 
   if (session.type === "left") {
-    redirect(routes.signIn());
+    redirect("/sign-in");
   }
 
   return { isAuth: true, session: session.value };

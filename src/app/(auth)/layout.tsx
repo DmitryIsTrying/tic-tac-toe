@@ -1,11 +1,11 @@
 "use client";
 
-import { ReactNode } from "react";
+import React from "react";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-md">{children}</div>
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      {children}
     </div>
   );
 }

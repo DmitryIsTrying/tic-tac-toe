@@ -1,34 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-export function useEventsSource<T>(url: string) {
+export function useEventsSource<T>(url: string, onData?: (data: T) => void) {
   const [isPending, setIsPending] = useState(true);
   const [data, setData] = useState<T>();
-  const [error, setError] = useState<unknown>();
+  const [error, setError] = useState<unknown | undefined>();
 
   useEffect(() => {
     const gameEvents = new EventSource(url);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleMessage = (message: MessageEvent<any>) => {
-      try {
-        setIsPending(false);
-        setError(null);
-        setData(JSON.parse(message.data));
-      } catch {
-        console.error("event parse error");
-      }
-    };
-    const handleError = (error: Event) => {
-      setError(error);
-    };
-    gameEvents.addEventListener("message", handleMessage);
-    gameEvents.addEventListener("error", handleError);
 
-    return () => {
-      gameEvents.close();
-      gameEvents.removeEventListener("message", handleMessage);
-      gameEvents.removeEventListener("error", handleError);
-    };
+    gameEvents.addEventListener("message", (message) => {
+      try {
+        const data = JSON.parse(message.data);
+        setError(undefined);
+        setData(data);
+        onData?.(data);
+        setIsPending(false);
+      } catch (e) {
+        setError(e);
+      }
+    });
+
+    gameEvents.addEventListener("error", (e) => {
+      setError(e);
+    });
+
+    return () => gameEvents.close();
   }, [url]);
 
-  return { dataStream: data, error, isPending };
+  return {
+    dataStream: data,
+    error,
+    isPending,
+  };
 }

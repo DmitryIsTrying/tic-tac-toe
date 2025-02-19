@@ -1,11 +1,9 @@
-import { ReactNode } from "react";
-
 export function Layout({
   children,
   actions,
 }: {
-  children: ReactNode;
-  actions: ReactNode;
+  children: React.ReactNode;
+  actions: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-4">

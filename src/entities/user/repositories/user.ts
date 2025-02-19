@@ -1,5 +1,5 @@
-import { UserEntity } from "@/entities/user/domain";
 import { prisma } from "@/shared/lib/db";
+import { UserEntity } from "../domain";
 import { Prisma } from "@prisma/client";
 
 export function saveUser(user: UserEntity): Promise<UserEntity> {

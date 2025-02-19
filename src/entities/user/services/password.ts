@@ -1,23 +1,31 @@
-import { pbkdf2Sync, randomBytes } from "node:crypto";
+import { pbkdf2, randomBytes } from "node:crypto";
 
-function hashPassword(
+async function hashPassword(
   password: string,
   salt = randomBytes(16).toString("hex"),
 ) {
-  const hash = pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-  return { hash, salt };
+  const hash = await new Promise<Buffer>((res, rej) =>
+    pbkdf2(password, salt, 1000, 64, `sha512`, (error, value) =>
+      error ? rej(error) : res(value),
+    ),
+  );
+
+  return {
+    hash: hash.toString("hex"),
+    salt,
+  };
 }
 
-function comparePassword({
-  password,
+async function comparePasswords({
   hash,
+  password,
   salt,
 }: {
   password: string;
   hash: string;
   salt: string;
 }) {
-  return hash === hashPassword(password, salt).hash;
+  return hash === (await hashPassword(password, salt)).hash;
 }
 
-export const passwordService = { comparePassword, hashPassword };
+export const passwordService = { comparePasswords, hashPassword };

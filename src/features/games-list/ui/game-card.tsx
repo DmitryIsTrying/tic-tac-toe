@@ -1,11 +1,11 @@
 import {
   Card,
-  CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardContent,
+  CardFooter,
 } from "@/shared/ui/card";
-import { ReactNode } from "react";
+import React from "react";
 
 export function GameCard({
   login,
@@ -14,7 +14,7 @@ export function GameCard({
 }: {
   login: string;
   rating: number;
-  actions: ReactNode;
+  actions: React.ReactNode;
 }) {
   return (
     <Card>

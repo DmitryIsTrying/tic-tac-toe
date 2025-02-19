@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { ReactNode } from "react";
+import React from "react";
 
 export function GameLayout({
   status,
@@ -7,19 +7,19 @@ export function GameLayout({
   field,
   players,
 }: {
-  players?: ReactNode;
-  status?: ReactNode;
-  field?: ReactNode;
+  players?: React.ReactNode;
+  status?: React.ReactNode;
+  field?: React.ReactNode;
 }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Крестики нолики 3х3</CardTitle>
+        <CardTitle>Крестики нолики 3x3</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {players}
         {status}
-        <div className="flex items-center justify-center"> {field}</div>
+        <div className="flex items-center justify-center">{field}</div>
       </CardContent>
     </Card>
   );

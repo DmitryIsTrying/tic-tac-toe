@@ -2,9 +2,10 @@
 
 import { createUser, sessionService } from "@/entities/user/server";
 import { redirect } from "next/navigation";
+
 import { z } from "zod";
 
-export type SignUpFormState = {
+export type SignUnFormState = {
   formData?: FormData;
   errors?: {
     login?: string;
@@ -13,26 +14,26 @@ export type SignUpFormState = {
   };
 };
 
-const formdataSchema = z.object({
+const formDataSchema = z.object({
   login: z.string().min(3),
   password: z.string().min(3),
 });
 
 export const signUpAction = async (
-  state: SignUpFormState,
+  state: SignUnFormState,
   formData: FormData,
-): Promise<SignUpFormState> => {
+): Promise<SignUnFormState> => {
   const data = Object.fromEntries(formData.entries());
-
-  const result = formdataSchema.safeParse(data);
+  const result = formDataSchema.safeParse(data);
 
   if (!result.success) {
-    const formatErrors = result.error.format();
+    const formatedErrors = result.error.format();
     return {
       formData,
       errors: {
-        login: formatErrors.login?._errors.join(", "),
-        password: formatErrors.password?._errors.join(", "),
+        login: formatedErrors.login?._errors.join(", "),
+        password: formatedErrors.password?._errors.join(", "),
+        _errors: formatedErrors._errors.join(", "),
       },
     };
   }
@@ -45,9 +46,9 @@ export const signUpAction = async (
     redirect("/");
   }
 
-  const errors = { "user-login-exists": "Пользователь уже существует" }[
-    createUserResult.error
-  ];
+  const errors = {
+    "user-login-exists": "Пользователь с таким login существует",
+  }[createUserResult.error];
 
   return {
     formData,

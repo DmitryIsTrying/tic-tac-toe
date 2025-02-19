@@ -1,38 +1,47 @@
-import { Card, CardContent, CardFooter } from "@/shared/ui/card";
-import { ReactNode } from "react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/shared/ui/card";
 
-type AuthFormLayoutProps = {
-  title: string;
-  fields: ReactNode;
-  actions: ReactNode;
-  link: ReactNode;
-  error: ReactNode;
-  action: (formData: FormData) => void;
-};
+import React from "react";
 
 export function AuthFormLayout({
-  title,
   actions,
+  description,
   fields,
   link,
-  action,
+  title,
   error,
-}: AuthFormLayoutProps) {
+  action,
+}: {
+  title: string;
+  description: string;
+  fields: React.ReactNode;
+  actions: React.ReactNode;
+  link: React.ReactNode;
+  error: React.ReactNode;
+  action: (formData: FormData) => void;
+}) {
   return (
-    <>
-      <h1 className="mb-6 text-center text-3xl font-bold">{title}</h1>
-      <Card>
-        <form action={action}>
-          <CardContent className="space-y-4">
-            {fields}
-            {error}
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            {actions}
-            {link}
-          </CardFooter>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-center">
+          {title}
+        </CardTitle>
+        <CardDescription className="text-center">{description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form action={action} className="space-y-4">
+          {fields}
+          {error}
+          {actions}
         </form>
-      </Card>
-    </>
+      </CardContent>
+      <CardFooter className="flex justify-center">{link}</CardFooter>
+    </Card>
   );
 }
